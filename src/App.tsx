@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { /*useState,*/ useEffect } from 'react';
+//import currentAPI from './api/currentAPI';
 import './App.css';
+import { useAppSelector, useAppDispatch } from './app/hooks';
+import { fetchCurrentWeather } from './features/current/currentSlice';
 
 function App() {
+  const current = useAppSelector((state) => state.current.current);
+  const dispatch = useAppDispatch();
+  //const [temp, setTemp] = useState(0);
+  //const [name, setName] = useState('');
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => dispatch(fetchCurrentWeather(pos)));
+    } else {
+
+    }
+  }, []);
+
+  /*const fetchWeather = (pos: GeolocationPosition) => {
+    dispatch(fetchCurrentWeather(pos));
+    currentAPI.get('weather', {
+      params: {
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+      }
+    })
+    .then((response) => {
+      console.log('response', response.data);
+      setTemp(response.data.main.temp);
+      setName(response.data.name);
+    })
+  };*/
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>
+        { current?.name }
+      </p>
+      <p>
+        { current?.main.temp } &deg;C
+      </p>
     </div>
   );
 }
