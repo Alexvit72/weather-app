@@ -47,7 +47,7 @@ interface Sys {
 
 export interface CurrentWeather {
   coord: Coord,
-  weather: Weather,
+  weather: Weather[],
   base: string,
   main: Main,
   visibility?: number,

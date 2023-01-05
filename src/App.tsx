@@ -3,6 +3,7 @@ import React, { /*useState,*/ useEffect } from 'react';
 import './App.css';
 import { useAppSelector, useAppDispatch } from './app/hooks';
 import { fetchCurrentWeather } from './features/current/currentSlice';
+import MainWeatherComponent from './components/MainWeatherComponent';
 
 function App() {
   const current = useAppSelector((state) => state.current.current);
@@ -17,29 +18,11 @@ function App() {
     }
   }, []);
 
-  /*const fetchWeather = (pos: GeolocationPosition) => {
-    dispatch(fetchCurrentWeather(pos));
-    currentAPI.get('weather', {
-      params: {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
-      }
-    })
-    .then((response) => {
-      console.log('response', response.data);
-      setTemp(response.data.main.temp);
-      setName(response.data.name);
-    })
-  };*/
-
   return (
     <div className="App">
-      <p>
-        { current?.name }
-      </p>
-      <p>
-        { current?.main.temp } &deg;C
-      </p>
+      <MainWeatherComponent
+        current={current}
+      />
     </div>
   );
 }
