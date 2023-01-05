@@ -5,20 +5,25 @@ import currentAPI from '../../api/currentAPI';
 
 // Define a type for the slice state
 interface CurrentState {
-  current: CurrentWeather | null,
+  forecast: CurrentWeather | null,
   loading: string
+}
+
+interface DailyForecast {
+  [key: string]: Array<{}>
 }
 
 // Define the initial state using that type
 const initialState: CurrentState = {
-  current: null,
-  loading: 'idle'
+  forecast: null,
+  loading: 'idle',
+  daily: {}
 };
 
-export const fetchCurrentWeather = createAsyncThunk(
-  'current/fetchCurrent',
+export const fetchForecast = createAsyncThunk(
+  'current/fetchForecast',
   async (pos: GeolocationPosition) => {
-    const response = await currentAPI.get('weather', {
+    const response = await currentAPI.get('forecast', {
       params: {
         lat: pos.coords.latitude,
         lon: pos.coords.longitude
@@ -28,8 +33,8 @@ export const fetchCurrentWeather = createAsyncThunk(
   }
 );
 
-export const currentSlice = createSlice({
-  name: 'current',
+export const forecastSlice = createSlice({
+  name: 'forecast',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -46,10 +51,10 @@ export const currentSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(fetchCurrentWeather.fulfilled, (state, action) => {
+    builder.addCase(fetchForecast.fulfilled, (state, action) => {
       // Add user to the state array
-      console.log('current', action.payload);
-      state.current = action.payload;
+      console.log('forecast', action.payload);
+      state.forecast = action.payload;
     });
   },
 });
@@ -59,4 +64,4 @@ export const currentSlice = createSlice({
 // Other code such as selectors can use the imported `RootState` type
 //export const current = (state: RootState) => state.current;
 
-export default currentSlice.reducer;
+export default forecastSlice.reducer;

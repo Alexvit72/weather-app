@@ -1,18 +1,25 @@
 import React from 'react';
-import { CurrentWeather } from '../interfaces/current';
+//import { CurrentWeather } from '../interfaces/current';
+import { useAppSelector } from '../app/hooks';
 
-export interface Props {
+/*export interface Props {
   current: CurrentWeather | null
-}
+}*/
 
-function MainWeatherComponent({ current }: Props) {
+function MainWeatherComponent() {
+  const current = useAppSelector((state) => state.current.current);
   return (
     <div className="Main">
       <p>
         { `${current?.dt ? new Date(current?.dt * 1000).toLocaleString() : ''}` }
       </p>
       <div>
-        <img src={`http://openweathermap.org/img/wn/${current?.weather[0].icon}@2x.png`} alt='' />
+        {current?.weather[0].icon ?
+          <img
+            src={`http://openweathermap.org/img/wn/${current?.weather[0].icon}@2x.png`}
+            alt=''
+          />
+        : ''}
         <span>{ current?.weather[0].description }</span>
       </div>
       <p>
