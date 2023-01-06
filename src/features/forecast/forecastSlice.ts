@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk/*, PayloadAction*/ } from '@reduxjs/toolkit';
 //import type { RootState } from '../../app/store';
-import { CurrentWeather } from '../../interfaces/current';
+import { Forecast } from '../../interfaces/forecast';
 import currentAPI from '../../api/currentAPI';
 
 // Define a type for the slice state
 interface CurrentState {
-  forecast: CurrentWeather | null,
+  forecast: Forecast | null,
   loading: string
 }
 
@@ -16,8 +16,7 @@ interface DailyForecast {
 // Define the initial state using that type
 const initialState: CurrentState = {
   forecast: null,
-  loading: 'idle',
-  daily: {}
+  loading: 'idle'
 };
 
 export const fetchForecast = createAsyncThunk(

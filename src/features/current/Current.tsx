@@ -8,13 +8,6 @@ function Current() {
   const dispatch = useAppDispatch();
   //const [temp, setTemp] = useState(0);
   //const [name, setName] = useState('');
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => dispatch(fetchCurrentWeather(pos)));
-    } else {
-
-    }
-  }, []);
 
   /*const fetchWeather = (pos: GeolocationPosition) => {
     dispatch(fetchCurrentWeather(pos));

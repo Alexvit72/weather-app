@@ -29,7 +29,7 @@ function MainWeatherComponent() {
         Ощущается как { current?.main?.feels_like?.toFixed() } &deg;C
       </p>
       <p>
-        Ветер { `${current?.wind?.speed?.toFixed()} - ${current?.wind?.gust?.toFixed()}` } м/с
+        Ветер { `${current?.wind?.speed?.toFixed()} ${current?.wind?.gust ? '- ' +  current.wind.gust.toFixed() : ''}` } м/с
       </p>
       <p>
         Влажность { current?.main?.humidity } %
