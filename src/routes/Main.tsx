@@ -1,14 +1,14 @@
 import React, { /*useState, */useEffect } from 'react';
 //import currentAPI from './api/currentAPI';
-import './App.css';
-import { useAppSelector, useAppDispatch } from './app/hooks';
-import { fetchCurrentWeather } from './features/current/currentSlice';
-import { fetchForecast } from './features/forecast/forecastSlice';
-import MainWeatherComponent from './components/MainWeatherComponent';
-import HourlyForecastComponent from './components/HourlyForecastComponent';
-import { ForecastItem } from './interfaces/forecast';
+//import './App.css';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { fetchCurrentWeather } from '../features/current/currentSlice';
+import { fetchForecast } from '../features/forecast/forecastSlice';
+import MainWeatherComponent from '../components/MainWeatherComponent';
+import HourlyForecastComponent from '../components/HourlyForecastComponent';
+import { ForecastItem } from '../interfaces/forecast';
 
-function App() {
+function Main() {
   const forecast = useAppSelector((state) => state.forecast.forecast);
   const dispatch = useAppDispatch();
   let result: { [key: string]: ForecastItem[] } = {};
@@ -42,11 +42,11 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="Main">
       <MainWeatherComponent />
       <HourlyForecastComponent list={forecast?.list.slice(0, 8)} />
     </div>
   );
 }
 
-export default App;
+export default Main;
