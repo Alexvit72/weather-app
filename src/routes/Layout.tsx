@@ -4,9 +4,9 @@ import { Outlet, NavLink } from "react-router-dom";
 function Layout() {
 
   return (
-    <div className="Layout">
+    <div className='Layout'>
       <header>
-        <nav>
+        <nav className='flex justify-evenly p-4 bg-gray-800 text-white'>
           <NavLink to='towns'>Города</NavLink>
           <NavLink to='forecast'>5 дней</NavLink>
           <NavLink to='map'>Карта</NavLink>
