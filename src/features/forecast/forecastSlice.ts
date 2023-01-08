@@ -21,11 +21,11 @@ const initialState: CurrentState = {
 
 export const fetchForecast = createAsyncThunk(
   'current/fetchForecast',
-  async (pos: GeolocationPosition) => {
+  async (params: { latitude: number, longitude: number }) => {
     const response = await currentAPI.get('forecast', {
       params: {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude
+        lat: params.latitude,
+        lon: params.longitude
       }
     });
     return response.data;
@@ -52,7 +52,7 @@ export const forecastSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchForecast.fulfilled, (state, action) => {
       // Add user to the state array
-      console.log('forecast', action.payload);
+      //console.log('forecast', action.payload);
       state.forecast = action.payload;
     });
   },

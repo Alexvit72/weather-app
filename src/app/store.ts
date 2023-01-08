@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import currentReducer from '../features/current/currentSlice'
 import forecastReducer from '../features/forecast/forecastSlice'
+import townsReducer from '../features/towns/townsSlice'
 
 export const store = configureStore({
   reducer: {
     current: currentReducer,
-    forecast: forecastReducer
+    forecast: forecastReducer,
+    towns: townsReducer
   }
 });
 

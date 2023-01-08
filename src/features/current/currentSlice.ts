@@ -17,11 +17,11 @@ const initialState: CurrentState = {
 
 export const fetchCurrentWeather = createAsyncThunk(
   'current/fetchCurrent',
-  async (pos: GeolocationPosition) => {
+  async (params: { latitude: number, longitude: number }) => {
     const response = await currentAPI.get('weather', {
       params: {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude
+        lat: params.latitude,
+        lon: params.longitude
       }
     });
     return response.data;
@@ -48,7 +48,7 @@ export const currentSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchCurrentWeather.fulfilled, (state, action) => {
       // Add user to the state array
-      console.log('current', action.payload);
+      //console.log('current', action.payload);
       state.current = action.payload;
     });
   },
