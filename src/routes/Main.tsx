@@ -31,6 +31,7 @@ function Main() {
   function getPositionData() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
+        console.log('pos', pos);
         const params = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
         dispatch(fetchCurrentWeather(params))
         .then((response) => {
@@ -40,6 +41,8 @@ function Main() {
             latitude: response.payload.coord.lat,
             longitude: response.payload.coord.lon
           };
+          console.log('town', town);
+
           dispatch(setCurrentTown(town));
           dispatch(addTown(town));
         });
@@ -51,10 +54,14 @@ function Main() {
   }
 
   return (
-    <div className="Main">
-      <h2>{ currentTown?.name }</h2>
+    <div className='Main h-full py-8 flex flex-col justify-between'>
+      <h2 className='text-center'>{ currentTown?.name }</h2>
       <MainWeatherComponent />
-      <HourlyForecastComponent list={forecast?.list.slice(0, 8)} />
+      <div className='flex justify-evenly'>
+        {forecast?.list?.length && forecast?.list.slice(0, 8).map((item) => {
+          return <HourlyForecastComponent key={item.dt} item={item} />;
+        })}
+      </div>
     </div>
   );
 }

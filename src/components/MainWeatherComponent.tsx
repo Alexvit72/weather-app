@@ -9,13 +9,14 @@ import { useAppSelector } from '../app/hooks';
 function MainWeatherComponent() {
   const current = useAppSelector((state) => state.current.current);
   return (
-    <div className="Main">
+    <div className='text-center'>
       <p>
         { `${current?.dt ? new Date(current?.dt * 1000).toLocaleString() : ''}` }
       </p>
-      <div>
+      <div className='flex flex-col items-center'>
         {current?.weather[0].icon ?
           <img
+            className='inline'
             src={`http://openweathermap.org/img/wn/${current?.weather[0].icon}@2x.png`}
             alt=''
           />
