@@ -1,10 +1,6 @@
 import React from 'react';
-//import { CurrentWeather } from '../interfaces/current';
 import { useAppSelector } from '../app/hooks';
 
-/*export interface Props {
-  current: CurrentWeather | null
-}*/
 
 function MainWeatherComponent() {
   const current = useAppSelector((state) => state.current.current);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import geoAPI from '../api/geoAPI';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { setCurrentTown, addTown, removeTown } from '../features/towns/townsSlice';
+import { setCurrentTown, removeTown } from '../features/towns/townsSlice';
 import { Town } from '../interfaces/towns';
 import { AutoComplete } from 'antd';
 
@@ -17,9 +17,12 @@ function Towns() {
 
   function onSelect(id: string) {
     const town = options.filter((item) => item.id === +id)[0];
-      dispatch(setCurrentTown(town));
-      dispatch(addTown(town));
-      navigate('/');
+    selectTown(town);
+  }
+
+  function selectTown(town: Town) {
+    dispatch(setCurrentTown(town));
+    navigate('/');
   }
 
   function onSearch(str: string) {
@@ -27,11 +30,6 @@ function Towns() {
     .then((response) => {
       setOptions(response.data.results || []);
     })
-  }
-
-  function selectTown(town: Town) {
-      dispatch(setCurrentTown(town));
-      navigate('/');
   }
 
   function getLabel(town: Town) {
@@ -52,7 +50,7 @@ function Towns() {
           const label = getLabel(item);
           return {
             label: label,
-            value: item.id.toString()
+            value: item.id?.toString()
           };
         })}
         style={{ width: '100%' }}

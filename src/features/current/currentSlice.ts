@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk/*, PayloadAction*/ } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 //import type { RootState } from '../../app/store';
 import { CurrentWeather } from '../../interfaces/current';
-import currentAPI from '../../api/currentAPI';
+import weatherAPI from '../../api/weatherAPI';
 
 // Define a type for the slice state
 interface CurrentState {
@@ -15,10 +15,10 @@ const initialState: CurrentState = {
   loading: 'idle'
 };
 
-export const fetchCurrentWeather = createAsyncThunk(
+export const fetchCurrent = createAsyncThunk(
   'current/fetchCurrent',
   async (params: { latitude: number, longitude: number }) => {
-    const response = await currentAPI.get('weather', {
+    const response = await weatherAPI.get('weather', {
       params: {
         lat: params.latitude,
         lon: params.longitude
@@ -33,30 +33,13 @@ export const currentSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    /*increment: (state) => {
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
-    },*/
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(fetchCurrentWeather.fulfilled, (state, action) => {
-      // Add user to the state array
-      //console.log('current', action.payload);
+    builder.addCase(fetchCurrent.fulfilled, (state, action) => {
       state.current = action.payload;
     });
   },
 });
-
-//export const { increment, decrement, incrementByAmount } = currentSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-//export const current = (state: RootState) => state.current;
 
 export default currentSlice.reducer;

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk/*, PayloadAction*/ } from '@reduxjs/toolkit';
 //import type { RootState } from '../../app/store';
 import { Forecast } from '../../interfaces/forecast';
-import currentAPI from '../../api/currentAPI';
+import weatherAPI from '../../api/weatherAPI';
 
 // Define a type for the slice state
 interface CurrentState {
@@ -22,7 +22,7 @@ const initialState: CurrentState = {
 export const fetchForecast = createAsyncThunk(
   'current/fetchForecast',
   async (params: { latitude: number, longitude: number }) => {
-    const response = await currentAPI.get('forecast', {
+    const response = await weatherAPI.get('forecast', {
       params: {
         lat: params.latitude,
         lon: params.longitude

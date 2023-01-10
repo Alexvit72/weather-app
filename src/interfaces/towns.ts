@@ -1,5 +1,5 @@
 export interface Town {
-  id: number,
+  id?: number,
   name: string,
   latitude: number,
   longitude: number,
@@ -19,4 +19,13 @@ export interface Town {
   admin2?: string,
   admin3?: string,
   admin4?: string
+}
+
+export interface ReverseGeoTown {
+  name: string,
+  local_names?: { [key: string]: string, ascii: string, feature_name: string },
+  lat: number,
+  lon: number,
+  country?: string,
+  state?: string
 }

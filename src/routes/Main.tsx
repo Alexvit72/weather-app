@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { fetchCurrentWeather } from '../features/current/currentSlice';
+import { fetchCurrent } from '../features/current/currentSlice';
 import { fetchForecast } from '../features/forecast/forecastSlice';
 import { setCurrentTown, addTown } from '../features/towns/townsSlice';
 import MainWeatherComponent from '../components/MainWeatherComponent';
@@ -22,31 +22,31 @@ function Main() {
     }
   }, []);
 
+  function fetchWeather(params: { latitude: number, longitude: number }) {
+    dispatch(fetchCurrent(params))
+    .then((response) => {
+      const town = {
+        id: response.payload.id,
+        name: response.payload.name,
+        latitude: response.payload.coord.lat,
+        longitude: response.payload.coord.lon
+      };
+      dispatch(setCurrentTown(town));
+      dispatch(addTown(town));
+    });
+    dispatch(fetchForecast(params));
+  }
+
   function getTownData(town: Town) {
     const params = { latitude: town.latitude, longitude: town.longitude };
-    dispatch(fetchCurrentWeather(params));
-    dispatch(fetchForecast(params));
+    fetchWeather(params);
   }
 
   function getPositionData() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
-        console.log('pos', pos);
         const params = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
-        dispatch(fetchCurrentWeather(params))
-        .then((response) => {
-          const town = {
-            id: response.payload.id,
-            name: response.payload.name,
-            latitude: response.payload.coord.lat,
-            longitude: response.payload.coord.lon
-          };
-          console.log('town', town);
-
-          dispatch(setCurrentTown(town));
-          dispatch(addTown(town));
-        });
-        dispatch(fetchForecast(params));
+        fetchWeather(params);
       });
     } else {
       navigate('towns');

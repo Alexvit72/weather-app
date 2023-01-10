@@ -32,14 +32,20 @@ function Forecasts() {
   }
 
   return (
-    <div className="Forecast">
-      <h2 className='text-center'>{ currentTown?.name }</h2>
-      {Object.entries(dailyForecast).map((item) => {
-        return (
-          <DailyForecastComponent key={item[0]} day={item[0]} item={item[1]} />
-        );
-      })}
-    </div>
+    <>
+      {currentTown ?
+        <div className="Forecast">
+          <h2 className='text-center'>{ currentTown?.name }</h2>
+          {Object.entries(dailyForecast).map((item) => {
+            return (
+              <DailyForecastComponent key={item[0]} day={item[0]} item={item[1]} />
+            );
+          })}
+        </div>
+      :
+        <p className='absolute inset-0 my-auto mx-auto w-1/2 h-max text-center text-4xl'>Не выбран город</p>
+      }
+    </>
   );
 }
 
