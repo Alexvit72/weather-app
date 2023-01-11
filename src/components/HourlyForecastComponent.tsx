@@ -5,6 +5,7 @@ export interface Props {
   item: ForecastItem
 }
 
+
 function HourlyForecast({ item }: Props) {
   return (
     <div className='Hourly-item mx-8'>
@@ -25,5 +26,6 @@ function HourlyForecast({ item }: Props) {
     </div>
   );
 }
+
 
 export default HourlyForecast;

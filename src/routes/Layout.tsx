@@ -2,7 +2,6 @@ import React from 'react';
 import { Outlet, NavLink } from "react-router-dom";
 
 function Layout() {
-
   return (
     <div className='Layout h-screen flex flex-col'>
       <header>

@@ -1,4 +1,4 @@
-export interface Town {
+/*export interface Town {
   id?: number,
   name: string,
   latitude: number,
@@ -19,9 +19,18 @@ export interface Town {
   admin2?: string,
   admin3?: string,
   admin4?: string
-}
+}*/
 
-export interface ReverseGeoTown {
+export interface Town {
+  id: number,
+  name: string,
+  coord: {
+    lat: number,
+    lon: number,
+  },
+  country?: string
+}
+export interface SearchTown {
   name: string,
   local_names?: { [key: string]: string, ascii: string, feature_name: string },
   lat: number,

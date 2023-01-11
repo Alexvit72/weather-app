@@ -20,7 +20,7 @@ export interface CurrentWeather {
   snow?: Rain,
   clouds?: Clouds,
   dt: number,
-  sys?: Sys,
+  sys: Sys,
   timezone: number,
   id: number,
   name: string,

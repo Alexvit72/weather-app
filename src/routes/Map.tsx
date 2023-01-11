@@ -10,10 +10,11 @@ import {
   Popup,
   useMapEvents
 } from 'react-leaflet';
+import NoDataComponent from '../components/NoDataComponent';
 import { Button } from 'antd';
-import { setCurrentTown } from '../features/towns/townsSlice';
-import reverseGeoAPI from '../api/reverseGeoAPI';
-import { ReverseGeoTown } from '../interfaces/towns';
+import { setPosition } from '../features/position/positionSlice';
+import geoAPI from '../api/geoAPI';
+import { SearchTown } from '../interfaces/towns';
 
   const layers = {
     Температура: 'temp_new',
@@ -29,11 +30,11 @@ import { ReverseGeoTown } from '../interfaces/towns';
 function OnClickedPopup() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [town, setTown] = useState<ReverseGeoTown | null>(null);
+  const [town, setTown] = useState<SearchTown | null>(null);
   const map = useMapEvents({
     click(e) {
-      reverseGeoAPI.get('', {
-        params: { lat: e.latlng.lat, lon: e.latlng.lng}
+      geoAPI.get('reverse', {
+        params: { lat: e.latlng.lat, lon: e.latlng.lng, limit: 1}
       })
       .then((response) => {
         setTown(response.data[0]);
@@ -49,13 +50,7 @@ function OnClickedPopup() {
 
   function setClickedTown() {
     if (town) {
-      const params = {
-        name: town.local_names?.ru || town.name,
-        latitude: town.lat,
-        longitude: town.lon,
-        admin1: town?.state
-      };
-      dispatch(setCurrentTown(params));
+      dispatch(setPosition({ lat: town.lat, lon: town.lon }));
       navigate('/');
     }
   }
@@ -73,17 +68,17 @@ function OnClickedPopup() {
 
 
 function Map() {
-  const currentTown = useAppSelector((state) => state.towns.currentTown);
+  const position = useAppSelector((state) => state.position.position);
 
   return (
     <>
-      {currentTown ?
-        <MapContainer className='h-full' center={[currentTown.latitude, currentTown.longitude]} zoom={9}>
+      {position ?
+        <MapContainer className='h-full' center={[position.lat, position.lon]} zoom={9}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
-          <Marker position={[currentTown.latitude, currentTown.longitude]} />
+          <Marker position={[position.lat, position.lon]} />
           <OnClickedPopup />
           <LayersControl>
             {Object.entries(layers).map((entry) => {
@@ -104,10 +99,11 @@ function Map() {
           <ScaleControl imperial={false} />
         </MapContainer>
       :
-        <p className='absolute inset-0 my-auto mx-auto w-1/2 h-max text-center text-4xl'>Не выбран город</p>
+        <NoDataComponent text='Не выбран город' />
       }
     </>
   );
 }
+
 
 export default Map;

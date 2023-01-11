@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Forecast, ForecastItem } from '../interfaces/forecast';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { useAppSelector } from '../app/hooks';
 import DailyForecastComponent from '../components/DailyForecastComponent';
+import NoDataComponent from '../components/NoDataComponent';
+
 
 function Forecasts() {
-  const currentTown = useAppSelector((state) => state.towns.currentTown);
   const forecast = useAppSelector((state) => state.forecast.forecast);
 
   const [dailyForecast, setDailyForecast] = useState<{ [key: string]: ForecastItem[] }>({});
@@ -27,15 +28,14 @@ function Forecasts() {
         }
       }
     }
-    console.log('result', result);
     return result;
   }
 
   return (
     <>
-      {currentTown ?
+      {forecast ?
         <div className="Forecast">
-          <h2 className='text-center'>{ currentTown?.name }</h2>
+          <h2 className='text-center'>{ forecast?.city?.name }</h2>
           {Object.entries(dailyForecast).map((item) => {
             return (
               <DailyForecastComponent key={item[0]} day={item[0]} item={item[1]} />
@@ -43,10 +43,11 @@ function Forecasts() {
           })}
         </div>
       :
-        <p className='absolute inset-0 my-auto mx-auto w-1/2 h-max text-center text-4xl'>Не выбран город</p>
+        <NoDataComponent text='Не выбран город' />
       }
     </>
   );
 }
+
 
 export default Forecasts;

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-//import type { RootState } from '../../app/store';
 import { CurrentWeather } from '../../interfaces/current';
+import { Position } from '../../interfaces/position';
 import weatherAPI from '../../api/weatherAPI';
 
 // Define a type for the slice state
@@ -17,13 +17,8 @@ const initialState: CurrentState = {
 
 export const fetchCurrent = createAsyncThunk(
   'current/fetchCurrent',
-  async (params: { latitude: number, longitude: number }) => {
-    const response = await weatherAPI.get('weather', {
-      params: {
-        lat: params.latitude,
-        lon: params.longitude
-      }
-    });
+  async (params: Position) => {
+    const response = await weatherAPI.get('weather', { params: { ...params } });
     return response.data;
   }
 );

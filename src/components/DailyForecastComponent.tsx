@@ -7,10 +7,8 @@ export interface Props {
   item: ForecastItem[]
 }
 
-//const times = ['ночь', 'утро', 'день', 'вечер'];
 
 function DailyForecast({ day, item }: Props) {
-
   return (
     <div className='my-4'>
       <h3 className='mb-2 text-center'>{ day }</h3>
@@ -24,5 +22,6 @@ function DailyForecast({ day, item }: Props) {
     </div>
   );
 }
+
 
 export default DailyForecast;

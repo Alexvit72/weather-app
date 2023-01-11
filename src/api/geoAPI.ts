@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'https://geocoding-api.open-meteo.com/v1/',
+  baseURL: 'https://api.openweathermap.org/geo/1.0/',
   timeout: 10000,
   params: {
-    language: 'ru',
-    count: 100
+    appid: '230e569937af52cbff50af356d2501bb'
   }
 });
