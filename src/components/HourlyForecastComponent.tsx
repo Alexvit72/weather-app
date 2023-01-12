@@ -1,24 +1,25 @@
 import React from 'react';
 import { ForecastItem } from '../interfaces/forecast';
+import WeatherIcon from './WeatherIcon';
+import { IconContext } from "react-icons";
 
-export interface Props {
+interface Props {
   item: ForecastItem
 }
 
 
-function HourlyForecast({ item }: Props) {
+export default function HourlyForecast({ item }: Props) {
   return (
-    <div className='Hourly-item mx-8'>
+    <div className='Hourly-item mx-4'>
       <p>
         { item?.dt_txt.slice(-8, -3) }
       </p>
       <div>
-        {item?.weather[0].icon ?
-          <img
-            src={`http://openweathermap.org/img/wn/${item?.weather[0].icon}.png`}
-            alt=''
-          />
-        : ''}
+        <IconContext.Provider value={{ size: '3rem' }}>
+          {item?.weather[0].icon ?
+            <WeatherIcon type={item.weather[0].icon} />
+          : ''}
+        </IconContext.Provider>
       </div>
       <p>
         { item?.main?.temp?.toFixed() } &deg;C
@@ -26,6 +27,3 @@ function HourlyForecast({ item }: Props) {
     </div>
   );
 }
-
-
-export default HourlyForecast;

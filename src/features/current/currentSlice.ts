@@ -6,12 +6,14 @@ import weatherAPI from '../../api/weatherAPI';
 // Define a type for the slice state
 interface CurrentState {
   current: CurrentWeather | null,
+  isDark: boolean,
   loading: string
 }
 
 // Define the initial state using that type
 const initialState: CurrentState = {
   current: null,
+  isDark: false,
   loading: 'idle'
 };
 
@@ -33,6 +35,7 @@ export const currentSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchCurrent.fulfilled, (state, action) => {
       state.current = action.payload;
+      state.isDark = !(action.payload.dt >= action.payload.sys.sunrise && action.payload.dt <= action.payload.sys.sunset);
     });
   },
 });

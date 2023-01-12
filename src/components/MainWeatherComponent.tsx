@@ -1,23 +1,24 @@
 import React from 'react';
 import { useAppSelector } from '../app/hooks';
+import WeatherIcon from './WeatherIcon';
+import { IconContext } from "react-icons";
 
 
-function MainWeatherComponent() {
+export default function MainWeatherComponent() {
   const current = useAppSelector((state) => state.current.current);
+
   return (
     <div className='text-center'>
       <p>
         { `${current?.dt ? new Date(current?.dt * 1000).toLocaleString() : ''}` }
       </p>
       <div className='flex flex-col items-center'>
-        {current?.weather[0].icon ?
-          <img
-            className='inline'
-            src={`http://openweathermap.org/img/wn/${current?.weather[0].icon}@2x.png`}
-            alt=''
-          />
-        : ''}
-        <span>{ current?.weather[0].description }</span>
+        <IconContext.Provider value={{ size: '10rem' }}>
+          {current?.weather[0].icon ?
+            <WeatherIcon type={current.weather[0].icon} />
+          : ''}
+          <span>{ current?.weather.map(item => item.description).join(', ') }</span>
+        </IconContext.Provider>
       </div>
       <p>
         { current?.main?.temp?.toFixed() } &deg;C
@@ -37,6 +38,3 @@ function MainWeatherComponent() {
     </div>
   );
 }
-
-
-export default MainWeatherComponent;

@@ -9,7 +9,7 @@ import { Position } from '../interfaces/position';
 import { AutoComplete } from 'antd';
 
 
-function Towns() {
+export default function Towns() {
   const towns = useAppSelector((state) => state.towns.towns);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ function Towns() {
           return (
             <p key={town.id}>
               <span onClick={() => selectTown(town.coord)}>
-                { `${town.name}, ` }
+                { town.name }
               </span>
               <span onClick={() => dispatch(removeTown(town))}>
                 &times;
@@ -68,6 +68,3 @@ function Towns() {
     </div>
   );
 }
-
-
-export default Towns;

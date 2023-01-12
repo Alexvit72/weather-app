@@ -14,7 +14,7 @@ import Map from '../routes/Map';
 import NoMatch from '../routes/NoMatch';
 import { Position } from '../interfaces/position';
 
-function App() {
+export default function App() {
   const position = useAppSelector((state) => state.position.position);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -61,5 +61,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;

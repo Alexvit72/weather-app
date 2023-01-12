@@ -5,7 +5,7 @@ import DailyForecastComponent from '../components/DailyForecastComponent';
 import NoDataComponent from '../components/NoDataComponent';
 
 
-function Forecasts() {
+export default function Forecasts() {
   const forecast = useAppSelector((state) => state.forecast.forecast);
 
   const [dailyForecast, setDailyForecast] = useState<{ [key: string]: ForecastItem[] }>({});
@@ -34,7 +34,7 @@ function Forecasts() {
   return (
     <>
       {forecast ?
-        <div className="Forecast">
+        <div className='Forecast h-full overflow-y-auto py-4'>
           <h2 className='text-center'>{ forecast?.city?.name }</h2>
           {Object.entries(dailyForecast).map((item) => {
             return (
@@ -48,6 +48,3 @@ function Forecasts() {
     </>
   );
 }
-
-
-export default Forecasts;

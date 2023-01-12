@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink } from "react-router-dom";
+import { useAppSelector } from '../app/hooks';
 
 const routes = {
   '/': 'Сейчас',
@@ -9,26 +10,29 @@ const routes = {
 };
 
 
-function Layout() {
+export default function Layout() {
+  const isDark = useAppSelector((state) => state.current.isDark);
+
   return (
-    <div className='Layout h-screen flex flex-col bg-sky-300 dark:bg-sky-900 text-white'>
-      <header>
-        <nav className='flex justify-evenly p-4 text-white border-b-2 border-white'>
-        {Object.entries(routes).map((entry) => {
-          return (
-            <NavLink
-              to={entry[0]}
-              className={({ isActive }) => `p-2 w-1/5 sm:w-1/12 text-center border-2 rounded-3xl ${isActive ? 'border-slate-50' : 'border-transparent'}`}
-            >
-              { entry[1] }
-            </NavLink>
-          );
-        })}
-        </nav>
-      </header>
-      <Outlet />
+    <div className={isDark ? 'dark' : undefined}>
+      <div className='Layout h-screen flex flex-col bg-blue-300 dark:bg-blue-900 text-white'>
+        <header>
+          <nav className='flex border-b border-white'>
+          {Object.entries(routes).map((entry) => {
+            return (
+              <NavLink
+                key={entry[0]}
+                to={entry[0]}
+                className={({ isActive }) => `flex-grow p-2 sm:w-1/6 text-center ${isActive ? 'bg-blue-900 dark:bg-blue-300 font-bold' : 'bg-transparent'}`}
+              >
+                { entry[1] }
+              </NavLink>
+            );
+          })}
+          </nav>
+        </header>
+        <Outlet />
+      </div>
     </div>
   );
 }
-
-export default Layout;

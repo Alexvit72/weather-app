@@ -2,17 +2,17 @@ import React from 'react';
 import { ForecastItem } from '../interfaces/forecast';
 import HourlyForecastComponent from '../components/HourlyForecastComponent';
 
-export interface Props {
+interface Props {
   day: string,
   item: ForecastItem[]
 }
 
 
-function DailyForecast({ day, item }: Props) {
+export default function DailyForecast({ day, item }: Props) {
   return (
     <div className='my-4'>
       <h3 className='mb-2 text-center'>{ day }</h3>
-      <div className='flex px-8'>
+      <div className='flex max-w-full overflow-x-auto'>
         {item.map((elem) =>{
           return (
             <HourlyForecastComponent key={elem.dt} item={elem} />
@@ -22,6 +22,3 @@ function DailyForecast({ day, item }: Props) {
     </div>
   );
 }
-
-
-export default DailyForecast;

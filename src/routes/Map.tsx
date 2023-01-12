@@ -37,8 +37,10 @@ function OnClickedPopup() {
         params: { lat: e.latlng.lat, lon: e.latlng.lng, limit: 1}
       })
       .then((response) => {
-        setTown(response.data[0]);
-        map.flyTo([response.data[0].lat, response.data[0].lon], map.getZoom());
+        if (response.data.length) {
+          setTown(response.data[0]);
+          map.flyTo([response.data[0].lat, response.data[0].lon], map.getZoom());
+        }
       })
     },
   });
@@ -67,7 +69,7 @@ function OnClickedPopup() {
 }
 
 
-function Map() {
+export default function Map() {
   const position = useAppSelector((state) => state.position.position);
 
   return (
@@ -104,6 +106,3 @@ function Map() {
     </>
   );
 }
-
-
-export default Map;

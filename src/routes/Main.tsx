@@ -5,7 +5,7 @@ import HourlyForecastComponent from '../components/HourlyForecastComponent';
 import { addTown } from '../features/towns/townsSlice';
 
 
-function Main() {
+export default function Main() {
   const current = useAppSelector((state) => state.current.current);
   const forecast = useAppSelector((state) => state.forecast.forecast);
   const dispatch = useAppDispatch();
@@ -23,10 +23,10 @@ function Main() {
   }, [current]);
 
   return (
-    <div className='Main h-full py-8 flex flex-col justify-between'>
+    <div className='Main h-full py-8 sm:py-16 flex flex-col justify-between'>
       <h2 className='text-center'>{ current?.name }</h2>
       <MainWeatherComponent />
-      <div className='flex justify-evenly'>
+      <div className='flex w-full overflow-x-auto sm:justify-evenly'>
         {forecast?.list?.length && forecast?.list.slice(0, 8).map((item) => {
           return <HourlyForecastComponent key={item.dt} item={item} />;
         })}
@@ -34,6 +34,3 @@ function Main() {
     </div>
   );
 }
-
-
-export default Main;
