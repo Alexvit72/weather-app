@@ -1,5 +1,5 @@
 import React from 'react';
-import { WiDaySunny, WiNightClear, WiDayCloudy, WiNightAltCloudy, WiCloud, WiCloudy, WiRain, WiDayRain, WiNightAltRain, WiThunderstorm, WiSnow, WiFog } from 'react-icons/wi';
+import { WiDaySunny, WiNightClear, WiDayCloudy, WiNightAltCloudy, WiCloud, WiCloudy, WiRain, WiDayRain, WiNightAltRain, WiThunderstorm, WiSnow, WiFog, WiWindDeg } from 'react-icons/wi';
 
 type Props = {
   type: string
@@ -21,5 +21,6 @@ export default function WeatherIcon({ type }: Props) {
   if (type.startsWith('01')) {
     return type.endsWith('d') ? <WiDaySunny /> : <WiNightClear />;
   }
+  if (type === 'wind') return <WiWindDeg />;
   return null;
 }
