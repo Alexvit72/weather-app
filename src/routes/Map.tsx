@@ -16,21 +16,24 @@ import { setPosition } from '../features/position/positionSlice';
 import geoAPI from '../api/geoAPI';
 import { SearchTown } from '../interfaces/towns';
 
-  const layers = {
-    Температура: 'temp_new',
-    Облачность: 'clouds',
-    'Облачность (классический)': 'clouds_cls',
-    Осадки: 'precipitation',
-    'Осадки (классический)': 'precipitation_cls',
-    Давление: 'pressure_new',
-    Ветер: 'wind_new'
-  };
+const layers = {
+  Температура: 'temp_new',
+  Облачность: 'clouds',
+  'Облачность (классический)': 'clouds_cls',
+  Осадки: 'precipitation',
+  'Осадки (классический)': 'precipitation_cls',
+  Давление: 'pressure_new',
+  Ветер: 'wind_new'
+};
 
 
 function OnClickedPopup() {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const [town, setTown] = useState<SearchTown | null>(null);
+
   const map = useMapEvents({
     click(e) {
       geoAPI.get('reverse', {
@@ -59,22 +62,26 @@ function OnClickedPopup() {
 
   return town === null ? null : (
     <Popup position={[town.lat, town.lon]}>
-      <p>Показать погоду здесь?</p>
+      <p>
+        Показать погоду здесь?
+      </p>
       <p className='flex justify-between'>
         <Button onClick={setClickedTown}>Да</Button>
         <Button onClick={(e) => closePopup(e.nativeEvent)}>Нет</Button>
       </p>
     </Popup>
   );
+
 }
 
 
 export default function Map() {
+
   const position = useAppSelector((state) => state.position.position);
 
   return (
     <>
-      {position ?
+      { position ?
         <MapContainer className='h-full' center={[position.lat, position.lon]} zoom={9}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -83,20 +90,20 @@ export default function Map() {
           <Marker position={[position.lat, position.lon]} />
           <OnClickedPopup />
           <LayersControl>
-            {Object.entries(layers).map((entry) => {
+            { Object.entries(layers).map(([ key, value ]) => {
               return (
                 <LayersControl.Overlay
-                  key={entry[0]}
-                  name={entry[0]}
-                  checked={entry[0] === 'Осадки'}
+                  key={key}
+                  name={key}
+                  checked={key === 'Осадки'}
                 >
                   <TileLayer
                     attribution='<a href="https://openweathermap.org/">OpenWeatherMap</a>'
-                    url={`https://tile.openweathermap.org/map/${entry[1]}/{z}/{x}/{y}.png?appid=230e569937af52cbff50af356d2501bb`}
+                    url={`https://tile.openweathermap.org/map/${value}/{z}/{x}/{y}.png?appid=230e569937af52cbff50af356d2501bb`}
                   />
                 </LayersControl.Overlay>
               );
-            })}
+            }) }
           </LayersControl>
           <ScaleControl imperial={false} />
         </MapContainer>

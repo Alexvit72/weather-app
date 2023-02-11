@@ -10,6 +10,7 @@ import { AutoComplete } from 'antd';
 
 
 export default function Towns() {
+
   const towns = useAppSelector((state) => state.towns.towns);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ export default function Towns() {
         placeholder="Введите название населённого пункта"
       />
       <div className=''>
-        {towns.map((town) => {
+        { towns.map((town) => {
           return (
             <p key={town.id}>
               <span onClick={() => selectTown(town.coord)}>
@@ -63,8 +64,9 @@ export default function Towns() {
               </span>
             </p>
           );
-        })}
+        }) }
       </div>
     </div>
   );
+
 }

@@ -6,6 +6,7 @@ import NoDataComponent from '../components/NoDataComponent';
 
 
 export default function Forecasts() {
+
   const forecast = useAppSelector((state) => state.forecast.forecast);
 
   const [dailyForecast, setDailyForecast] = useState<{ [key: string]: ForecastItem[] }>({});
@@ -33,14 +34,14 @@ export default function Forecasts() {
 
   return (
     <>
-      {forecast ?
+      { forecast ?
         <div className='Forecast h-full overflow-y-auto py-4'>
           <h2 className='text-center'>{ forecast?.city?.name }</h2>
-          {Object.entries(dailyForecast).map((item) => {
+          { Object.entries(dailyForecast).map(([ key, value ]) => {
             return (
-              <DailyForecastComponent key={item[0]} day={item[0]} item={item[1]} />
+              <DailyForecastComponent key={key} day={key} item={value} />
             );
-          })}
+          }) }
         </div>
       :
         <NoDataComponent text='Не выбран город' />

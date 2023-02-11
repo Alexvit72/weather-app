@@ -6,6 +6,7 @@ import { addTown } from '../features/towns/townsSlice';
 
 
 export default function Main() {
+
   const current = useAppSelector((state) => state.current.current);
   const forecast = useAppSelector((state) => state.forecast.forecast);
   const dispatch = useAppDispatch();
@@ -27,10 +28,11 @@ export default function Main() {
       <h2 className='text-center text-4xl sm:text-5xl'>{ current?.name }</h2>
       <MainWeatherComponent />
       <div className='flex w-full overflow-x-auto sm:justify-evenly'>
-        {forecast?.list?.length && forecast?.list.slice(0, 8).map((item) => {
+        { forecast?.list?.length && forecast?.list.slice(0, 8).map((item) => {
           return <HourlyForecastComponent key={item.dt} item={item} />;
-        })}
+        }) }
       </div>
     </div>
   );
+  
 }

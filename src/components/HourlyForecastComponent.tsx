@@ -3,10 +3,9 @@ import { ForecastItem } from '../interfaces/forecast';
 import WeatherIcon from './WeatherIcon';
 import { IconContext } from "react-icons";
 
-interface Props {
+type Props = {
   item: ForecastItem
 }
-
 
 export default function HourlyForecast({ item }: Props) {
   return (
@@ -16,9 +15,9 @@ export default function HourlyForecast({ item }: Props) {
       </p>
       <div>
         <IconContext.Provider value={{ size: '3rem' }}>
-          {item?.weather[0].icon ?
+          { item?.weather[0].icon ?
             <WeatherIcon type={item.weather[0].icon} />
-          : ''}
+          : '' }
         </IconContext.Provider>
       </div>
       <p>

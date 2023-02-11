@@ -1,11 +1,28 @@
 import React from 'react';
-import { WiDaySunny, WiNightClear, WiDayCloudy, WiNightAltCloudy, WiCloud, WiCloudy, WiRain, WiDayRain, WiNightAltRain, WiThunderstorm, WiSnow, WiFog, WiWindDeg } from 'react-icons/wi';
+import {
+  WiDaySunny,
+  WiNightClear,
+  WiDayCloudy,
+  WiNightAltCloudy,
+  WiCloud,
+  WiCloudy,
+  WiRain,
+  WiDayRain,
+  WiNightAltRain,
+  WiThunderstorm,
+  WiSnow,
+  WiFog,
+  WiWindDeg,
+  WiCloudUp,
+  WiCloudDown
+} from 'react-icons/wi';
 
 type Props = {
-  type: string
+  type: string,
+  className?: string
 }
 
-export default function WeatherIcon({ type }: Props) {
+export default function WeatherIcon({ type, className }: Props) {
   if (type.startsWith('50')) return <WiFog />;
   if (type.startsWith('13')) return <WiSnow />;
   if (type.startsWith('11')) return <WiThunderstorm />;
@@ -22,5 +39,7 @@ export default function WeatherIcon({ type }: Props) {
     return type.endsWith('d') ? <WiDaySunny /> : <WiNightClear />;
   }
   if (type === 'wind') return <WiWindDeg />;
+  if (type === 'up') return <WiCloudUp className={className} />;
+  if (type === 'down') return <WiCloudDown className={className} />;
   return null;
 }
