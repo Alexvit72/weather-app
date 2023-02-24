@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useRouteLoaderData  } from "react-router-dom";
 import { Forecast, ForecastItem } from '../interfaces/forecast';
 import { useAppSelector } from '../app/hooks';
 import DailyForecastComponent from '../components/DailyForecastComponent';
 import NoDataComponent from '../components/NoDataComponent';
+import { LayoutData } from '../interfaces/layout';
 
 
 export default function Forecasts() {
 
-  const forecast = useAppSelector((state) => state.forecast.forecast);
+  const { forecast } = useRouteLoaderData('layout') as LayoutData;
+  console.log('forecast', forecast);
+
+  //const forecast = useAppSelector((state) => state.forecast.forecast);
 
   const [dailyForecast, setDailyForecast] = useState<{ [key: string]: ForecastItem[] }>({});
 

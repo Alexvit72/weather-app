@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate, useSubmit } from "react-router-dom";
 import geoAPI from '../api/geoAPI';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { removeTown } from '../features/towns/townsSlice';
@@ -8,12 +8,20 @@ import { SearchTown } from '../interfaces/towns';
 import { Position } from '../interfaces/position';
 import { AutoComplete } from 'antd';
 
+export async function action({ request, params }) {
+  const formData = await request.formData();
+  const position = { lat: formData.get('lat'), lon: formData.get('lon') }
+  console.log('position of town', position);
+
+  return { position };
+}
 
 export default function Towns() {
 
   const towns = useAppSelector((state) => state.towns.towns);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  let submit = useSubmit();
 
   const [options, setOptions] = useState<SearchTown[]>([]);
 
@@ -22,8 +30,15 @@ export default function Towns() {
   }
 
   function selectTown(coord: Position) {
-    dispatch(setPosition(coord));
-    navigate('/');
+    let formData = new FormData();
+    formData.append("lat", `${coord.lat}`);
+    formData.append("lon", `${coord.lon}`);
+    submit(formData, {
+      method: "patch",
+      action: "/",
+    })
+    //dispatch(setPosition(coord));
+    //navigate('/');
   }
 
   function onSearch(str: string) {
@@ -39,19 +54,21 @@ export default function Towns() {
 
   return (
     <div className="Towns">
-      <AutoComplete
-        autoFocus
-        options={options.map((item: SearchTown, index: number) => {
-          return {
-            label: `${item.local_names?.ru || item.name}, ш: ${item.lat.toFixed(2)}, д: ${item.lon.toFixed(2)}${item.country ? ', ' + item.country : ''}`,
-            value: index.toString()
-          };
-        })}
-        style={{ width: '100%' }}
-        onSelect={onSelect}
-        onSearch={onSearch}
-        placeholder="Введите название населённого пункта"
-      />
+      <Form method="put" action="/" id="town-form">
+        <AutoComplete
+          autoFocus
+          options={options.map((item: SearchTown, index: number) => {
+            return {
+              label: `${item.local_names?.ru || item.name}, ш: ${item.lat.toFixed(2)}, д: ${item.lon.toFixed(2)}${item.country ? ', ' + item.country : ''}`,
+              value: index.toString()
+            };
+          })}
+          style={{ width: '100%' }}
+          onSelect={onSelect}
+          onSearch={onSearch}
+          placeholder="Введите название населённого пункта"
+        />
+      </Form>
       <div className=''>
         { towns.map((town) => {
           return (

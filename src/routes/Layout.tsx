@@ -1,6 +1,11 @@
 import React from 'react';
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useLoaderData } from "react-router-dom";
 import { useAppSelector } from '../app/hooks';
+import { Position } from '../interfaces/position';
+import { CurrentWeather } from '../interfaces/current';
+import { LayoutData } from '../interfaces/layout';
+import { AxiosResponse } from 'axios';
+import weatherAPI from '../api/weatherAPI';
 
 const routes = {
   '/': 'Сейчас',
@@ -9,10 +14,29 @@ const routes = {
   towns: 'Города'
 };
 
+async function getPosition() {
+  return new Promise((resolve: (value: GeolocationPosition) => void) => {
+    navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => resolve(pos));
+  })
+  .then((result): Position => {
+    return { lat: result.coords.latitude, lon: result.coords.longitude };
+  })
+}
+
+export async function loader() {
+  const position = await getPosition();
+  const current = await weatherAPI.get('weather', { params: position });
+  const forecast = await weatherAPI.get('forecast', { params: position });
+  return { position, current: current.data, forecast: forecast.data };
+}
+
 
 export default function Layout() {
 
-  const isDark = useAppSelector((state) => state.current.isDark);
+  const { current } = useLoaderData() as LayoutData;
+  console.log('current', current);
+  //const isDark = useAppSelector((state) => state.current.isDark);
+  const isDark = !(current.dt >= current.sys.sunrise && current.dt <= current.sys.sunset);
 
   return (
     <div className={isDark ? 'dark' : undefined}>
@@ -36,5 +60,5 @@ export default function Layout() {
       </div>
     </div>
   );
-  
+
 }

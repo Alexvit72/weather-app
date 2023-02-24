@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../app/hooks';
+import { useLoaderData, useRouteLoaderData  } from "react-router-dom";
 import WeatherIcon from './WeatherIcon';
 import { IconContext } from "react-icons";
 import { Divider, Space, Button } from 'antd';
+import { CurrentWeather } from '../interfaces/current';
+import { AxiosResponse } from 'axios';
+
+type Props = {
+  current: CurrentWeather
+}
 
 
-export default function MainWeatherComponent() {
+export default function MainWeatherComponent({ current }: Props) {
 
-  const current = useAppSelector((state) => state.current.current);
+  //const current = useRouteLoaderData('layout') as CurrentWeather;
+  //console.log('current in comp', current);
+
   const [extended, setExtended] = useState<boolean>(false);
 
   return (

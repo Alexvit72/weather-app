@@ -5,8 +5,8 @@ interface Sys {
   id: number,
   message?: string,
   country?: string,
-  sunrise?: number,
-  sunset?: number
+  sunrise: number,
+  sunset: number
 }
 
 export interface CurrentWeather {
