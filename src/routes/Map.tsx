@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { useNavigate, useParams } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -12,7 +11,6 @@ import {
 } from 'react-leaflet';
 import NoDataComponent from '../components/NoDataComponent';
 import { Button } from 'antd';
-import { setPosition } from '../features/position/positionSlice';
 import geoAPI from '../api/geoAPI';
 import { SearchTown } from '../interfaces/towns';
 
@@ -29,9 +27,7 @@ const layers = {
 
 function OnClickedPopup() {
 
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const [town, setTown] = useState<SearchTown | null>(null);
 
   const map = useMapEvents({
@@ -55,8 +51,7 @@ function OnClickedPopup() {
 
   function setClickedTown() {
     if (town) {
-      dispatch(setPosition({ lat: town.lat, lon: town.lon }));
-      navigate('/');
+      navigate(`/${town.lat}/${town.lon}`);
     }
   }
 
@@ -77,17 +72,17 @@ function OnClickedPopup() {
 
 export default function Map() {
 
-  const position = useAppSelector((state) => state.position.position);
+  const { lat, lon } = useParams();
 
   return (
     <>
-      { position ?
-        <MapContainer className='h-full' center={[position.lat, position.lon]} zoom={9}>
+      { lat && lon ?
+        <MapContainer className='h-full' center={[+lat, +lon]} zoom={9}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
-          <Marker position={[position.lat, position.lon]} />
+          <Marker position={[+lat, +lon]} />
           <OnClickedPopup />
           <LayersControl>
             { Object.entries(layers).map(([ key, value ]) => {

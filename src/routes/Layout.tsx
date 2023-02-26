@@ -1,49 +1,48 @@
-import React from 'react';
-import { Outlet, NavLink, useLoaderData } from "react-router-dom";
-import { useAppSelector } from '../app/hooks';
-import { Position } from '../interfaces/position';
-import { CurrentWeather } from '../interfaces/current';
-import { LayoutData } from '../interfaces/layout';
-import { AxiosResponse } from 'axios';
+import React, { useEffect } from 'react';
+import {
+  Outlet,
+  NavLink,
+  useLoaderData,
+  useNavigate,
+  useParams,
+  LoaderFunctionArgs
+} from "react-router-dom";
+import { LayoutData } from '../interfaces/loaders';
 import weatherAPI from '../api/weatherAPI';
 
-const routes = {
-  '/': 'Сейчас',
+const navLinks = {
+  current: 'Сейчас',
   forecast: '5 суток',
   map: 'Карта',
   towns: 'Города'
 };
 
-async function getPosition() {
-  return new Promise((resolve: (value: GeolocationPosition) => void) => {
-    navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => resolve(pos));
-  })
-  .then((result): Position => {
-    return { lat: result.coords.latitude, lon: result.coords.longitude };
-  })
-}
-
-export async function loader() {
-  const position = await getPosition();
-  const current = await weatherAPI.get('weather', { params: position });
-  const forecast = await weatherAPI.get('forecast', { params: position });
-  return { position, current: current.data, forecast: forecast.data };
+export async function loader({ params }: LoaderFunctionArgs) {
+  const currentResponse = await weatherAPI.get('weather', { params: { ...params } });
+  const forecastResponse = await weatherAPI.get('forecast', { params: { ...params } });
+  return { current: currentResponse.data, forecast: forecastResponse.data };
 }
 
 
 export default function Layout() {
 
+  const navigate = useNavigate();
+  let { lat, lon } = useParams();
   const { current } = useLoaderData() as LayoutData;
-  console.log('current', current);
-  //const isDark = useAppSelector((state) => state.current.isDark);
   const isDark = !(current.dt >= current.sys.sunrise && current.dt <= current.sys.sunset);
+
+  useEffect(() => {
+    if (current) {
+      navigate('current', { replace: true });
+    }
+  }, [lat, lon]);
 
   return (
     <div className={isDark ? 'dark' : undefined}>
       <div className='Layout h-screen flex flex-col bg-blue-300 dark:bg-slate-800 text-white'>
         <header>
           <nav className='flex border-b border-white'>
-            { Object.entries(routes).map(([ key, value ]) => {
+            { Object.entries(navLinks).map(([ key, value ]) => {
               return (
                 <NavLink
                   key={key}
