@@ -5,7 +5,7 @@ import Main, { loader as positionLoader } from './routes/Main';
 import Current from './routes/Current';
 import Forecast from './routes/Forecast';
 import Towns, { action as townAction, loader as townsLoader } from './routes/Towns';
-import NoMatch from './routes/NoMatch';
+import NoDataComponent from './components/NoDataComponent';
 
 
 
@@ -17,6 +17,7 @@ const App = createBrowserRouter(
         id='main'
         element={<Main />}
         loader={positionLoader}
+        errorElement={<NoDataComponent text='Ошибка!' />}
       >
         <Route
           path=':lat/:lon'
@@ -41,7 +42,7 @@ const App = createBrowserRouter(
           />
         </Route>
       </Route>
-      <Route path="*" element={<NoMatch />} />
+      <Route path="*" element={<NoDataComponent text='Здесь ничего нет ):' />} />
     </>
   )
 );
