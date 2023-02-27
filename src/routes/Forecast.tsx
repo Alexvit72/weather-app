@@ -43,8 +43,8 @@ export default function Forecasts() {
             return (
               <div className='my-8' key={key}>
                 <h3 className='mb-2 text-center text-2xl'>{ key }</h3>
-                <div className='flex sm:justify-center'>
-                  <div className='flex sm:w-1/2 overflow-x-auto'>
+                <div className='flex sm:justify-center w-full'>
+                  <div className='flex overflow-x-auto'>
                     { value.map((elem) => {
                       return (
                         <HourlyForecastComponent key={elem.dt} item={elem} />
