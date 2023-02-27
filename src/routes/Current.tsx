@@ -27,7 +27,7 @@ export default function Current() {
   function addTown(town: Town) {
     const storedTowns = localStorage.getItem('towns-for-weather-app');
     const towns = storedTowns ? JSON.parse(storedTowns) : [];
-    if (!towns.find((item: Town) => item.id == town.id)) {
+    if (!towns.find((item: Town) => item.id === town.id)) {
       towns.push(town);
       localStorage.setItem('towns-for-weather-app', JSON.stringify(towns));
     }
