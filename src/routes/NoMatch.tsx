@@ -3,7 +3,7 @@ import NoDataComponent from '../components/NoDataComponent';
 
 export default function NoMatch() {
   return (
-    <div className="NoMatch">
+    <div>
       <NoDataComponent text='Здесь ничего нет ):' />
     </div>
   );

@@ -1,12 +1,10 @@
 import React from 'react';
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import './App.css';
 import Layout, { loader as dataLoader } from './routes/Layout';
 import Main, { loader as positionLoader } from './routes/Main';
 import Current from './routes/Current';
 import Forecast from './routes/Forecast';
 import Towns, { action as townAction, loader as townsLoader } from './routes/Towns';
-import Map from './routes/Map';
 import NoMatch from './routes/NoMatch';
 
 
@@ -34,10 +32,6 @@ const App = createBrowserRouter(
           <Route
             path='forecast'
             element={<Forecast />}
-          />
-          <Route
-            path='map'
-            element={<Map />}
           />
           <Route
             path='towns'

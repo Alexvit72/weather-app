@@ -13,7 +13,6 @@ import weatherAPI from '../api/weatherAPI';
 const navLinks = {
   current: 'Сейчас',
   forecast: '5 суток',
-  map: 'Карта',
   towns: 'Города'
 };
 
@@ -39,7 +38,7 @@ export default function Layout() {
 
   return (
     <div className={isDark ? 'dark' : undefined}>
-      <div className='Layout h-screen flex flex-col bg-blue-300 dark:bg-slate-800 text-white'>
+      <div className='h-screen flex flex-col bg-blue-300 dark:bg-slate-800 text-white'>
         <header>
           <nav className='flex border-b border-white'>
             { Object.entries(navLinks).map(([ key, value ]) => {

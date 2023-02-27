@@ -72,8 +72,9 @@ export default function Towns() {
   }
 
   return (
-    <div className="Towns">
+    <div className='flex flex-col sm:items-center py-8 sm:py-16 px-4'>
       <AutoComplete
+        className='w-full sm:w-1/3'
         autoFocus
         value={value}
         options={options.map((item: SearchTown, index: number) => {
@@ -82,24 +83,29 @@ export default function Towns() {
             value: index.toString()
           };
         })}
-        style={{ width: '100%' }}
         onSelect={onSelect}
         onSearch={onSearch}
-        placeholder="Введите название населённого пункта"
+        placeholder='Введите название населённого пункта'
       />
-      <div>
+      <div className='text-xl truncate px-4 my-8 sm:w-1/5'>
         <Link to={`/${geoPosition.lat}/${geoPosition.lon}/current`}>
           Моё местоположение
         </Link>
       </div>
-      <div className=''>
+      <div className='px-4 sm:w-1/5'>
         { towns.map((town: Town) => {
           return (
-            <p key={town.id}>
-              <span onClick={() => selectTown(town.coord)}>
+            <p className='flex justify-between w-full my-4' key={town.id}>
+              <span
+                className='cursor-pointer'
+                onClick={() => selectTown(town.coord)}
+              >
                 { town.name }
               </span>
-              <span onClick={() => removeTown(town)}>
+              <span
+                className='cursor-pointer ml-8'
+                onClick={() => removeTown(town)}
+              >
                 &times;
               </span>
             </p>

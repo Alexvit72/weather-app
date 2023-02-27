@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouteLoaderData  } from "react-router-dom";
 import { Forecast, ForecastItem } from '../interfaces/forecast';
-import DailyForecastComponent from '../components/DailyForecastComponent';
+import HourlyForecastComponent from '../components/HourlyForecastComponent';
 import NoDataComponent from '../components/NoDataComponent';
 import { LayoutData } from '../interfaces/loaders';
 
@@ -35,11 +35,24 @@ export default function Forecasts() {
   return (
     <>
       { forecast ?
-        <div className='Forecast h-full overflow-y-auto py-4'>
-          <h2 className='text-center'>{ forecast?.city?.name }</h2>
+        <div className='h-full overflow-y-auto py-4'>
+          <h2 className='mb-10 text-center text-4xl sm:text-5xl'>
+            { forecast?.city?.name }
+          </h2>
           { Object.entries(dailyForecast).map(([ key, value ]) => {
             return (
-              <DailyForecastComponent key={key} day={key} item={value} />
+              <div className='my-8' key={key}>
+                <h3 className='mb-2 text-center text-2xl'>{ key }</h3>
+                <div className='flex sm:justify-center'>
+                  <div className='flex sm:w-1/2 overflow-x-auto'>
+                    { value.map((elem) => {
+                      return (
+                        <HourlyForecastComponent key={elem.dt} item={elem} />
+                      );
+                    }) }
+                  </div>
+                </div>
+              </div>
             );
           }) }
         </div>
